@@ -34,7 +34,7 @@ A full-stack web application built with the MERN (MongoDB, Express, React, Node.
 | Redux (optional) | RESTful APIs   |            | Axios, dotenv, bcrypt     |
 
 ---
-
+```bash
 ## 🗂️ Project Structure
 supplyco/ 
 │ 
@@ -56,7 +56,6 @@ supplyco/
 ## ⚙️ Installation & Setup
 
 ### 1. Clone the Repository
-```bash
 git clone https://github.com/midhunwalker/Supplyco-reactjs.git
 cd Supplyco-reactjs
 
@@ -83,7 +82,7 @@ node index.js
 
 
 🧑‍💻 Author
-Midhun Walker
+Midhun P
 🔗 GitHub
 🔗 LinkedIn (Update this)
 
