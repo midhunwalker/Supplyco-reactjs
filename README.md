@@ -19,7 +19,7 @@ A full-stack web application built with the MERN (MongoDB, Express, React, Node.
 - View orders from clients
 - Manage inventory
 
-### 🛠 Admin Features (Optional)
+### 🛠 Admin Features (not implimented yet)
 - View all users and shop owners
 - Manage product categories and user permissions
 
