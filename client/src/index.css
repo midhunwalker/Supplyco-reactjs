@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
+@layer base {
+  body {
+    @apply m-0 p-0 font-sans bg-gray-50;
+  }
+  
+  h1 {
+    @apply text-4xl font-bold text-gray-800 mb-6;
+  }
+  
+  h2 {
+    @apply text-3xl font-semibold text-gray-700 mb-4;
+  }
+  
+  h3 {
+    @apply text-2xl font-medium text-gray-600 mb-3;
+  }
+  
+  p {
+    @apply text-gray-600 leading-relaxed;
+  }
+}
+
+/* Navigation */
+.navbar {
+  @apply bg-white shadow-sm fixed w-full top-0 z-50;
+}
+
+.nav-links {
+  @apply flex items-center space-x-6;
+}
+
+.nav-link {
+  @apply text-gray-600 hover:text-blue-600 transition-colors px-3 py-2 rounded-md;
+}
+
+/* Forms */
+.input-group {
+  @apply mb-6;
+}
+
+.label {
+  @apply block text-gray-700 text-sm font-medium mb-2;
+}
+
+.input {
+  @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all;
+}
+
+.btn-primary {
+  @apply bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium;
+}
+
+.btn-secondary {
+  @apply bg-gray-100 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-200 transition-colors font-medium;
+}
+
+.btn-danger {
+  @apply bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors font-medium;
+}
+
+.btn:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+/* Cards */
+.card {
+  @apply bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow;
+}
+
+.product-card {
+  @apply card overflow-hidden;
+}
+
+.shop-card {
+  @apply card cursor-pointer transition-transform hover:scale-[1.02];
+}
+
+/* Cart */
+.cart-item {
+  @apply flex items-center justify-between p-4 border-b border-gray-100;
+}
+
+.quantity-control {
+  @apply flex items-center space-x-3;
+}
+
+.quantity-btn {
+  @apply w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center;
+}
+
+/* Loading states */
+.loading-spinner {
+  @apply w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin;
+}
+
+.skeleton-loader {
+  @apply animate-pulse bg-gray-200 rounded-lg;
+}
+
+/* Error states */
+.error-message {
+  @apply text-red-600 text-sm mt-2 flex items-center space-x-2;
+}
+
+.error-toast {
+  @apply fixed top-4 right-4 bg-red-100 border border-red-400 text-red-700 px-6 py-3 rounded-lg flex items-center space-x-3;
+}
+
+.success-toast {
+  @apply fixed top-4 right-4 bg-green-100 border border-green-400 text-green-700 px-6 py-3 rounded-lg flex items-center space-x-3;
+}
+
+/* Responsive grid */
+.products-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
+}
+
+.shops-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+/* Dashboard layouts */
+.user-dashboard {
+  @apply grid grid-cols-1 lg:grid-cols-4 gap-8;
+}
+
+.shop-dashboard {
+  @apply grid grid-cols-1 lg:grid-cols-5 gap-8;
+}
+
+/* Animations */
+@keyframes slide-in {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.modal-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 rounded-full hover:bg-gray-500;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    @apply hidden;
+  }
+  
+  .print-section {
+    @apply p-0 m-0;
+  }
+}
