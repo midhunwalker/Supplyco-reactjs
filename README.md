@@ -84,7 +84,7 @@ node index.js
 🧑‍💻 Author
 Midhun P
 🔗 GitHub
-🔗 LinkedIn (Update this)
+🔗 LinkedIn 
 
 📜 License
 This project is licensed under the MIT License - feel free to use and modify for personal or commercial use.
