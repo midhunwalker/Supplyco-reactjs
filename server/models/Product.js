@@ -25,14 +25,13 @@ const productSchema = new mongoose.Schema(
       default: 0
     },
     image: {
-      type: String,
-      validate: {
-        validator: function (v) {
-          // Ensure URL starts with http or https and ends with one of the valid extensions
-          return /^(https?:\/\/).+\.(jpg|jpeg|png|webp)$/.test(v);
-        },
-        message: (props) => `${props.value} is not a valid image URL`
-      }
+  type: String,
+  required: [true, "Product image is required"],
+  validate: {
+    validator: (v) =>
+      /^https?:\/\/.+/.test(v),
+    message: "Invalid image URL",
+  },
     },
     sku: {
       type: String,
@@ -84,11 +83,8 @@ productSchema.virtual('reviews', {
 });
 
 // Query middleware to automatically populate shop info on find queries
-productSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: 'shop',
-    select: 'name address'
-  });
+productSchema.pre(/^find/, function(next) {
+  this.populate('shop', 'name address');
   next();
 });
 

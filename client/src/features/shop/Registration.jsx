@@ -20,10 +20,10 @@ const ShopRegistration = () => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    
+
     try {
-      const response = await axios.post('/api/auth/shop-owner/register', formData);
-      
+      await axios.post('/api/auth/shop-owner/register', formData);
+
       // Automatically log in after registration
       await login({
         licenseId: formData.licenseId,

@@ -1,4 +1,4 @@
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import { NavLink } from 'react-router-dom';
 import { ShoppingCartIcon, BuildingStorefrontIcon, UserIcon, ChartBarIcon } from '@heroicons/react/24/outline';
 
@@ -6,23 +6,23 @@ const Home = () => {
   const { user } = useAuth();
 
   return (
-    <div className="min-h-screen pt-16">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-blue-50 py-20 px-4">
+      <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-20 px-4">
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-6">
             Welcome to SupplyCo
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Your trusted platform for essential supplies distribution. 
-            {user ? 'Manage your account and access services' : 'Join us today to access quality supplies'}.
+            Your trusted platform for essential supplies distribution.
+            {user ? ' Manage your account and access services' : ' Join us today to access quality supplies'}.
           </p>
-          
-          <div className="flex justify-center space-x-4">
+
+          <div className="flex justify-center gap-4 flex-wrap">
             {user ? (
               <NavLink
-                to={user.role === 'shopOwner' ? '/shop/dashboard' : '/user/dashboard'}
-                className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                to={user.role === 'shop_owner' ? '/shop/dashboard' : '/user/dashboard'}
+                className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium shadow-lg"
               >
                 Go to Dashboard
               </NavLink>
@@ -30,13 +30,13 @@ const Home = () => {
               <>
                 <NavLink
                   to="/register"
-                  className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                  className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium shadow-lg"
                 >
                   Get Started
                 </NavLink>
                 <NavLink
                   to="/login"
-                  className="bg-white text-blue-600 px-8 py-3 rounded-lg border-2 border-blue-600 hover:bg-blue-50 transition-colors font-medium"
+                  className="bg-white text-blue-600 px-8 py-3 rounded-lg border-2 border-blue-600 hover:bg-blue-50 transition-colors font-medium shadow"
                 >
                   Login
                 </NavLink>
@@ -47,12 +47,12 @@ const Home = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-16 px-4">
+      <section className="py-16 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">
             Why Choose SupplyCo?
           </h2>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow">
               <ShoppingCartIcon className="h-12 w-12 text-blue-600 mb-4" />
@@ -95,7 +95,7 @@ const Home = () => {
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">
             How It Works
           </h2>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center p-6">
               <div className="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -117,8 +117,8 @@ const Home = () => {
                 {user?.role === 'shopOwner' ? 'Manage Products' : 'Browse Shops'}
               </h3>
               <p className="text-gray-600">
-                {user?.role === 'shopOwner' 
-                  ? 'Add and manage your product listings' 
+                {user?.role === 'shopOwner'
+                  ? 'Add and manage your product listings'
                   : 'Explore verified shops and their offerings'}
               </p>
             </div>

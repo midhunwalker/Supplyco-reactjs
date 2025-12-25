@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { RationCardIcon, LicenseIcon } from '../components/Icons';
+import { useAuth } from '../../context/AuthContext';
+import { RationCardIcon, LicenseIcon } from '../../components/Icons';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
 const Login = () => {
   const { login } = useAuth();
@@ -9,6 +10,7 @@ const Login = () => {
   const [credentials, setCredentials] = useState({ id: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +27,7 @@ const Login = () => {
     } catch (err) {
       setError(
         err.response?.data?.error ||
-          'Login failed. Please check your credentials.'
+        'Login failed. Please check your credentials.'
       );
     } finally {
       setLoading(false);
@@ -53,11 +55,10 @@ const Login = () => {
               <button
                 key={label}
                 onClick={() => setIsShop(shopMode)}
-                className={`px-4 py-2 rounded-full transition ${
-                  isShop === shopMode
+                className={`px-4 py-2 rounded-full transition ${isShop === shopMode
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
+                  }`}
               >
                 {label}
               </button>
@@ -116,17 +117,31 @@ const Login = () => {
               >
                 Password
               </label>
-              <input
-                id="password"
-                type="password"
-                required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Enter password"
-                value={credentials.password}
-                onChange={(e) =>
-                  setCredentials({ ...credentials, password: e.target.value })
-                }
-              />
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  required
+                  className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter password"
+                  value={credentials.password}
+                  onChange={(e) =>
+                    setCredentials({ ...credentials, password: e.target.value })
+                  }
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? (
+                    <EyeSlashIcon className="h-5 w-5" />
+                  ) : (
+                    <EyeIcon className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
             </div>
           </div>
 

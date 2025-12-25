@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../api';
+import { api, validateToken, setAuthToken } from '../api';
+import * as cartAPI from '../api/cart';
 
 const AuthContext = createContext();
 
@@ -12,7 +13,7 @@ export function AuthProvider({ children }) {
 
   const fetchCart = useCallback(async () => {
     try {
-      const { data } = await api.get('/cart');
+      const { data } = await cartAPI.getCart();
       setCart(data?.items || []);
     } catch (err) {
       setCart([]);
@@ -21,7 +22,7 @@ export function AuthProvider({ children }) {
 
   const fetchUser = useCallback(async () => {
     try {
-      const { data } = await api.get('/auth/validate');
+      const { data } = await validateToken();
       // Note: data is expected to have a "user" object.
       setUser(data.user);
       await fetchCart();
@@ -43,6 +44,7 @@ export function AuthProvider({ children }) {
     try {
       const endpoint = isShop ? '/auth/shop/login' : '/auth/user/login';
       const { data } = await api.post(endpoint, credentials);
+      setAuthToken(data.token);
       localStorage.setItem('supplyco_token', data.token);
       setUser(data.user);
       await fetchCart();
@@ -57,6 +59,7 @@ export function AuthProvider({ children }) {
     try {
       const endpoint = isShop ? '/auth/shop/register' : '/auth/user/register';
       const { data } = await api.post(endpoint, userData);
+      setAuthToken(data.token);
       localStorage.setItem('supplyco_token', data.token);
       setUser(data.user);
       await fetchCart();
@@ -67,6 +70,7 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
+    setAuthToken(null);
     localStorage.removeItem('supplyco_token');
     setUser(null);
     setCart([]);

@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import api from '../api';
-import { 
-  BuildingStorefrontIcon, 
-  MagnifyingGlassIcon, 
-  ShoppingCartIcon 
+import { useAuth } from '../../context/AuthContext';
+import api from '../../api/client';
+import {
+  BuildingStorefrontIcon,
+  MagnifyingGlassIcon,
+  ShoppingCartIcon
 } from '@heroicons/react/24/outline';
-import ShopSkeleton from '../components/ShopSkeleton';
+import ShopSkeleton from '../../components/ShopSkeleton';
 
 // Helper to validate that the shop data structure is correct
 const isValidShop = (shop) => {
   return shop &&
-         typeof shop === 'object' &&
-         '_id' in shop &&
-         typeof shop.name === 'string' &&
-         typeof shop.address === 'string';
+    typeof shop === 'object' &&
+    '_id' in shop &&
+    typeof shop.name === 'string' &&
+    typeof shop.address === 'string';
 };
 
 const Shops = () => {
@@ -119,8 +119,8 @@ const Shops = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredShops.length > 0 ? (
             filteredShops.map(shop => (
-              <NavLink 
-                key={shop._id} 
+              <NavLink
+                key={shop._id}
                 to={`/user/shops/${shop._id}`}
                 className="group bg-white rounded-xl shadow-sm hover:shadow-md transition-all p-6 border border-gray-100"
                 aria-label={`View ${shop.name} details`}
@@ -139,7 +139,7 @@ const Shops = () => {
                 <div className="flex items-center text-sm text-gray-500">
                   <ShoppingCartIcon className="h-5 w-5 mr-2" />
                   <span>
-                    {(shop.products?.length || 0).toLocaleString()} 
+                    {(shop.products?.length || 0).toLocaleString()}
                     {shop.products?.length === 1 ? ' product' : ' products'} available
                   </span>
                 </div>
@@ -148,8 +148,8 @@ const Shops = () => {
           ) : (
             <div className="col-span-full text-center py-12">
               <p className="text-gray-500 text-lg">
-                {searchTerm ? 
-                  'No shops match your search' : 
+                {searchTerm ?
+                  'No shops match your search' :
                   'No shops available in your area'}
               </p>
               {searchTerm && (

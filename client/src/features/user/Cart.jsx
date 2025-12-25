@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import api from '../api';
+import { useAuth } from '../../context/AuthContext';
 import { TrashIcon, PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
 
 const Cart = () => {
-  const { user, cart, fetchCart } = useAuth();
+  const { user, cart, fetchCart, api } = useAuth();
   const [localCart, setLocalCart] = useState(cart);
   const [loading, setLoading] = useState(!cart.length);
   const [error, setError] = useState(null);
@@ -36,7 +35,7 @@ const Cart = () => {
     if (user && (!cart || cart.length === 0)) {
       fetchData();
     }
-  }, [user, cart]);
+  }, [user, cart, api]);
 
   const handleQuantityChange = async (productId, newQuantity) => {
     try {
@@ -118,7 +117,7 @@ const Cart = () => {
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center border rounded-lg">
                       <button
-                        onClick={() => handleQuantityChange(item.product._id, item.quantity - 1)} 
+                        onClick={() => handleQuantityChange(item.product._id, item.quantity - 1)}
                         className="p-2 hover:bg-gray-100 disabled:opacity-50"
                         disabled={item.quantity <= 1}
                       >
@@ -126,7 +125,7 @@ const Cart = () => {
                       </button>
                       <span className="px-4">{item.quantity}</span>
                       <button
-                        onClick={() => handleQuantityChange(item.product._id, item.quantity + 1)} 
+                        onClick={() => handleQuantityChange(item.product._id, item.quantity + 1)}
                         className="p-2 hover:bg-gray-100"
                       >
                         <PlusIcon className="h-4 w-4" />

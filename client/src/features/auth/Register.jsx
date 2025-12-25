@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { RationCardIcon, LicenseIcon, ShopIcon } from '../components/Icons';
+import { useAuth } from '../../context/AuthContext';
+import { RationCardIcon, LicenseIcon, ShopIcon } from '../../components/Icons';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
 const Register = () => {
   const { register } = useAuth();
@@ -16,6 +17,7 @@ const Register = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -31,15 +33,15 @@ const Register = () => {
       // For shops, use licenseId, shopName, and address; for users, use rationCardId.
       const userData = isShop
         ? {
-            licenseId: formData.licenseId,
-            password: formData.password,
-            shopName: formData.shopName,
-            address: formData.address
-          }
+          licenseId: formData.licenseId,
+          password: formData.password,
+          shopName: formData.shopName,
+          address: formData.address
+        }
         : {
-            rationCardId: formData.rationCardId,
-            password: formData.password
-          };
+          rationCardId: formData.rationCardId,
+          password: formData.password
+        };
 
       await register(userData, isShop);
       navigate(isShop ? '/shop/dashboard' : '/user/dashboard');
@@ -69,11 +71,10 @@ const Register = () => {
             <button
               key={type}
               onClick={() => setIsShop(type === 'Shop')}
-              className={`px-4 py-2 rounded-full transition ${
-                isShop === (type === 'Shop')
+              className={`px-4 py-2 rounded-full transition ${isShop === (type === 'Shop')
                   ? 'bg-blue-600 text-white'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }`}
+                }`}
             >
               {type} Registration
             </button>
@@ -126,6 +127,8 @@ const Register = () => {
               type="password"
               value={formData.password}
               onChange={handleInputChange}
+              showPassword={showPassword}
+              onTogglePassword={() => setShowPassword(!showPassword)}
             />
             <p className="text-xs text-gray-500 mt-1">
               Must contain uppercase, lowercase, number, and special character
@@ -154,7 +157,7 @@ const Register = () => {
   );
 };
 
-const InputField = ({ id, label, type = 'text', icon, value, onChange }) => (
+const InputField = ({ id, label, type = 'text', icon, value, onChange, showPassword, onTogglePassword }) => (
   <div>
     <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
       {label}
@@ -168,13 +171,27 @@ const InputField = ({ id, label, type = 'text', icon, value, onChange }) => (
       <input
         id={id}
         name={id}
-        type={type}
+        type={type === 'password' && showPassword !== undefined ? (showPassword ? 'text' : 'password') : type}
         required
-        className={`w-full px-3 ${icon ? 'pl-10' : ''} py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500`}
+        className={`w-full px-3 ${icon ? 'pl-10' : ''} ${type === 'password' ? 'pr-10' : ''} py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500`}
         placeholder={`Enter ${label.toLowerCase()}`}
         value={value}
         onChange={onChange}
       />
+      {type === 'password' && onTogglePassword && (
+        <button
+          type="button"
+          onClick={onTogglePassword}
+          className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+          aria-label={showPassword ? "Hide password" : "Show password"}
+        >
+          {showPassword ? (
+            <EyeSlashIcon className="h-5 w-5" />
+          ) : (
+            <EyeIcon className="h-5 w-5" />
+          )}
+        </button>
+      )}
     </div>
   </div>
 );

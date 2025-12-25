@@ -9,13 +9,26 @@ import cartRoutes from './routes/cart.js';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/supplyco';
+if (!process.env.PORT) {
+  throw new Error("PORT is not defined");
+}
+
+if (!process.env.MONGODB_URI) {
+  throw new Error("MONGODB_URI is not defined");
+}
+
+const PORT = Number(process.env.PORT);
+const MONGODB_URI = process.env.MONGODB_URI;
+
 
 // Middleware
+if (!process.env.CLIENT_URL) {
+  throw new Error("CLIENT_URL is not defined");
+}
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    origin: process.env.CLIENT_URL,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true

@@ -1,107 +1,78 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext';
-import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import UserDashboard from './pages/user/Dashboard';
-import ShopOwnerDashboard from './pages/shop/Dashboard';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import ShopView from './pages/user/ShopView';
-import Cart from './pages/user/Cart';
-import ShopRegistration from './pages/shop/Registration';
-import ProductsManagement from './pages/shop/ProductsManagement';
-import NotFound from './pages/NotFound';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import Terms from './pages/Terms';
-import Profile from './pages/Profile';
-import Shops from './pages/Shops';
+// src/App.jsx
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 
-const ProtectedRoute = ({ children, allowedRoles }) => {
-  const { user, loading } = useAuth();
+// Layouts
+import MainLayout from "./layouts/MainLayout";
+import UserLayout from "./layouts/UserLayout";
+import ShopLayout from "./layouts/ShopLayout";
 
-  if (loading) {
-    // Replace with a spinner if desired.
-    return <div>Loading...</div>;
-  }
+// Marketing / public pages
+import Home from "./features/marketing/Home";
+import About from "./features/marketing/About";
+import Contact from "./features/marketing/Contact";
+import Terms from "./features/marketing/Terms";
+import Shops from "./features/user/Shops";
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
+// Auth
+import Login from "./features/auth/Login";
+import Register from "./features/auth/Register";
 
-  if (!allowedRoles.includes(user.role)) {
-    return <Navigate to="/" replace />;
-  }
+// User features
+import UserDashboard from "./features/user/Dashboard";
+import ShopView from "./features/user/ShopView";
+import Cart from "./features/user/Cart";
+import Profile from "./features/user/Profile";
 
-  return children;
-};
+// Shop-owner features
+import ShopOwnerDashboard from "./features/shop/ShopDashboard";
+import ShopRegistration from "./features/shop/Registration";
+import ProductsManagement from "./features/shop/ProductsManagement";
+
+// Misc
+import NotFound from "./features/common/NotFound";
 
 function App() {
   return (
     <Router>
       <AuthProvider>
-        <div className="min-h-screen bg-gray-100">
-          <Navbar />
+        <Routes>
+          {/* Public routes wrapped by MainLayout */}
+          <Route element={<MainLayout />}>
+            <Route index element={<Home />} />
+            <Route path="about" element={<About />} />
+            <Route path="contact" element={<Contact />} />
+            <Route path="terms" element={<Terms />} />
+            <Route path="shops" element={<Shops />} />
 
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/shops" element={<Shops />} />
-            {/* User Routes */}
-            <Route
-              path="/user/dashboard"
-              element={
-                <ProtectedRoute allowedRoles={['user']}>
-                  <UserDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/user/shops/:shopId"
-              element={
-                <ProtectedRoute allowedRoles={['user']}>
-                  <ShopView />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/user/cart"
-              element={
-                <ProtectedRoute allowedRoles={['user']}>
-                  <Cart />
-                </ProtectedRoute>
-              }
-            />
+            {/* Auth */}
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
 
-            {/* Shop Owner Routes */}
-            <Route
-              path="/shop/dashboard"
-              element={
-                <ProtectedRoute allowedRoles={['shop_owner']}>
-                  <ShopOwnerDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/shop/register" element={<ShopRegistration />} />
-            <Route
-              path="/shop/products"
-              element={
-                <ProtectedRoute allowedRoles={['shop_owner']}>
-                  <ProductsManagement />
-                </ProtectedRoute>
-              }
-            />
+            {/* Public shop registration (intentional) */}
+            <Route path="shop/register" element={<ShopRegistration />} />
 
-            {/* 404 Page */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </div>
+            {/* Legacy single-page profile route -> redirect to new user profile */}
+            <Route path="profile" element={<Navigate to="/user/profile" replace />} />
+          </Route>
+
+          {/* User-only routes */}
+          <Route path="/user" element={<UserLayout />}>
+            <Route path="dashboard" element={<UserDashboard />} />
+            <Route path="shops/:shopId" element={<ShopView />} />
+            <Route path="cart" element={<Cart />} />
+            <Route path="profile" element={<Profile />} />
+          </Route>
+
+          {/* Shop-owner only routes */}
+          <Route path="/shop" element={<ShopLayout />}>
+            <Route path="dashboard" element={<ShopOwnerDashboard />} />
+            <Route path="products" element={<ProductsManagement />} />
+          </Route>
+
+          {/* Fallback / 404 */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </AuthProvider>
     </Router>
   );
